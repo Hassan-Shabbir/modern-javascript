@@ -370,18 +370,205 @@ let html
 // }
 // const john = new Customer('John', 'Doe', '555-555-5555', 'Standard')
 
-// get external/api data
-document.getElementById('button').addEventListener('click', loadData)
-function loadData() {
-	const xhr = new XMLHttpRequest()
-	xhr.open('GET', 'data.txt', true) //3rd true if async
-	xhr.onload = function() {
-		if (this.status === 200) {
-			console.log(this.responseText)
-		}
-	}
-	xhr.onerror = function() {
-		console.log('Request error')
-	}
-	xhr.send()
-}
+//// get external/api data
+//document.getElementById('button').addEventListener('click', loadData)
+//function loadData() {
+//	const xhr = new XMLHttpRequest()
+//	xhr.open('GET', 'data.txt', true) //3rd true if async
+//	//or xhr.open('GET', 'http://foo.com/api/', true) //3rd true if async
+//	xhr.onload = function() {
+//		if (this.status === 200) {
+//			console.log(this.responseText)
+//		}
+//	}
+//	xhr.onerror = function() {
+//		console.log('Request error')
+//	}
+//	xhr.send()
+//}
+
+// API: application programming interface
+// REST: representational state transfer, stateless usually on HTTP
+// HTTP requests: put, get, put, delete
+
+// // promises
+// // original
+// function createPost(post, callback) { 
+// 	setTimeout(function() {
+// 		posts.push(post)
+// 		callback()
+// 	}, 2000)
+// }
+// createPost({title:'Post three'}, getPosts)
+// // new
+// function createPost(post) { 
+// 	return new Promise(function(resolve, reject) {
+// 		setTimeout(function() {
+// 			posts.push(post)
+// 			const error = true
+// 			if (!error){
+// 				resolve()
+// 			} else {
+// 				reject('Error: Something\'s wrong')
+// 			}
+// 		}, 2000)
+// 	})
+// }
+// createPost({title:'Post three'})
+// 	.then(getPosts)
+// 	.catch(function(err) {
+// 		console.log(err)
+// 	})
+
+// // fetch api
+// fetch('test.txt') // or test.json or url
+// 	.then(function(res) {
+// 		return res.text() // or res.json()
+// 	})
+// 	.then(function(data) {
+// 		console.log(data)
+// 	})
+// 	.catch(function(err) {
+// 		console.log(err)
+// 	})
+
+// // arrow functions
+// const sayHello = () => console.log('hi')
+// const hello = () => 'Hello'
+// const objLiteral = () => ({msg: 'Hello'})
+// const greet = name => console.log(`Hello ${greet}`)
+// const greet = (fn,ln) => console.log(`Hello ${fn} ${ln}`)
+// const users = ['a','b','c']
+// users.map(name => name.length)
+
+// // make http post request
+// post(url, data) {
+// 	return new Promise((resolve, reject) => {
+// 		fetch(url, {
+// 			method: 'POST',
+// 			headers: {
+// 				'Content-type': 'application/json'
+// 			},
+// 			body: JSON.stringify(data)
+// 		}).then(res => res.json())
+// 			.then(data => resolve(data))
+// 			.catch(err => reject(err))
+// 	})
+// }
+
+// // async/await
+// async function myFunc() {
+// 	const promise = new Promise((resolve, reject) => {
+// 		setTimeout(() => resolve('Hello'), 1000)
+// 	})
+// 	const error = true
+// 	if (!error) {
+// 		const res = await promise
+// 		return res
+// 	} else {
+// 		await Promise.reject(new Error('err'))
+// 	}
+// }
+// myFunc().then(res => console.log(res)).catch(err => console.log(err))
+
+// async function getUsers() {
+// 	const response = await fetch('url')
+// 	const data = await response.json()
+// 	return data
+// }
+// getUsers().then(users => console.log(users))
+
+// // old and new version of promise vs async
+// get(url) {
+// 	return new Promise((resolve, reject) => {
+// 		fetch(url)
+// 			.then(res => res.json())
+// 			.then(data => resolve(data))
+// 			.catch(err => reject(err))
+// 	})
+// }
+// async get(url) {
+// 	const response = await fetch(url)
+// 	const resData = await response.json()
+// 	return resData
+// }
+
+// // iterators (generators are better)
+// function nameIterator(names) {
+// 	let nextIndex = 0;
+// 	return {
+// 		next: function() {
+// 			return nextIndex < names.length ?
+// 				{ value: names[nextIndex++], done: false } :
+// 				{ done: true }
+// 		}
+// 	}
+// }
+// const namesArr = ['Jack', 'Jill', 'John']
+// const names = nameIterator(namesArr)
+// console.log(names.next().value)
+
+// // generators (note star after function)
+// function* createIds() {
+// 	let index = 1
+// 	while (true) {
+// 		yield index++
+// 	}
+// }
+// const name = sayNames()
+// console.log(name.next().value)
+
+// // destructuring
+// let a, b
+// [a, b] = [100, 200]
+// [a, b, ...rest] = [100, 200, 300, 400, 500]
+// const person = {
+// 	name: 'John Doe',
+// 	age: 32,
+// 	city: 'Miami',
+// 	gender: 'Male'
+// }
+// const { name, age, city } = person
+
+// // maps = key-value pairs
+// const map = new Map()
+// const key1 = 'some string', key2 = {}, key3 = function() {}
+// map.set(key1, 'Value of key1')
+// map.set(key2, 'Value of key2')
+// map.set(key3, 'Value of key3')
+// console.log(map.get(key1))
+// console.log(map.size)
+// for (let[key, value] of map) {
+// 	console.log(`${key} = ${value}`)
+// }
+// for (let key of map.keys()) {
+// 	console.log(key)
+// }
+// for (let value of map.values()) {
+// 	console.log(value)
+// }
+// map.forEach(function(value, key) {
+// 	console.log(`${key} = ${value}`)
+// })
+// Array.from(map)
+
+// // sets = store unique values
+// const set = new Set([100, 'string', true])
+// set.add(100)
+// set.size
+// set.has(100) //must be primitive
+// set.delete(100)
+// for (let item of set) {
+// 	console.log(item)
+// }
+// set.forEach(value => {
+// 	console.log(value)
+// })
+
+// // commonJS module syntax
+// const person = require('./mymodule1')
+// // ES2015 module
+// import { person, sayHello } from './mymodule2.'
+// import * as mod from './mymodule2'
+// import greeting from './mymodule2' // when default export 
+
